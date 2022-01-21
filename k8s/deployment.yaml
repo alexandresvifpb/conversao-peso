@@ -1,0 +1,37 @@
+# Deployment da app web conversao peso
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-peso
+  labels:
+    app: app-peso
+spec:
+  selector:
+    matchLabels:
+      app: app-peso
+  template:
+    metadata:
+      labels:
+        app: app-peso
+    spec:
+      containers:
+      - name: app-peso
+        image: alexandreufcg/conversao-peso:v1
+        ports:
+          - containerPort: 80
+
+---
+# Service do app-peso
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-peso
+spec:
+  selector:
+    app: app-peso
+  ports:
+    - port: 80
+      protocol: TCP
+      nodePort: 30001
+  type: LoadBalancer
+  # type: NodePort
